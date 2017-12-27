@@ -10,5 +10,5 @@ import retrofit2.http.Query
  */
 interface CoinmarketcapApi {
     @GET("ticker")
-    abstract fun getData(@Query("limit") limit: Int): Call<List<CryptoList>>
+    fun getData(@Query("limit") limit: Int): Call<List<CryptoList>>
 }
