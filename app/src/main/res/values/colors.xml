@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorAccentInactive">#FF80AB</color>
+    <color name="white">#FFF</color>
+    <color name="black">#000</color>
+    <color name="bot_message_color">#9FA8DA</color>
 </resources>
