@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         App.getApi().getData( 50).enqueue(object : Callback<List<Currency>> {
             override fun onResponse(call: Call<List<Currency>>, response: Response<List<Currency>>) {
                 cryptoList = response.body()
-                var message = "Hi!\nThis is all available currencies:\n\n"
+                var message = "Hi!\nThis is all available crypto-currencies:\n\n"
 
                 for (cur in cryptoList) {
                     message += cur.symbol + " (" + cur.name + ")\n"
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
                 message += "\nChoose one!"
 
-                val example = "For example: BTC-USD"
+                val example = "For example: BTC-USD\nTo get valid currencies list type \"Currencies\""
 
                 messages = arrayListOf(
                         Message(MessagesAdapter.BOT_MESSAGE_VIEW_TYPE, message),
@@ -101,13 +101,18 @@ class MainActivity : AppCompatActivity() {
         binding.send.setOnClickListener({
             _ ->
             if (binding.editText.text.isNotEmpty()) { sendMessage() }
-            binding.editText.text.clear()
         })
     }
 
     private fun sendMessage() {
-        val command = binding.editText.text
-        showMyMessage(command.toString())
+        val command = binding.editText.text.toString()
+        binding.editText.text.clear()
+        showMyMessage(command)
+
+        if (command.toLowerCase() == "currencies") {
+            showCurrenciesList()
+            return
+        }
 
         val splitCommand = command.split("-")
 
@@ -183,6 +188,15 @@ class MainActivity : AppCompatActivity() {
             showBotMessage("Try another")
 
         }
+    }
+
+    private fun showCurrenciesList() {
+        val currencies = resources.getStringArray(R.array.valid_currencies)
+        var message = "Valid currencies:\n\n"
+
+        currencies.map { c -> message += c + "\n" }
+
+        showBotMessage(message)
     }
 
 }
