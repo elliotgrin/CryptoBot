@@ -99,7 +99,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setSendClickListener() {
         binding.send.setOnClickListener({
-            _ -> if (binding.editText.text.isNotEmpty()) { sendMessage() }
+            _ ->
+            if (binding.editText.text.isNotEmpty()) { sendMessage() }
+            binding.editText.text.clear()
         })
     }
 
@@ -123,7 +125,7 @@ class MainActivity : AppCompatActivity() {
 
         if (id == "-1") {
             showBotMessage("Invalid crypto currency")
-            showBotMessage("Try again")
+            showBotMessage("Try another")
         } else {
             makeRequestForCryptoPrice(id, currency)
         }
@@ -177,7 +179,8 @@ class MainActivity : AppCompatActivity() {
 
         } catch (e: JSONException) {
 
-            showBotMessage("Error occurred!")
+            showBotMessage("Invalid currency")
+            showBotMessage("Try another")
 
         }
     }
