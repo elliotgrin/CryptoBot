@@ -1,19 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/bot_message"
-        android:layout_width="wrap_content"
+    <data>
+        <variable
+            name="message"
+            type="com.apps.elliotgrin.cryptobot.models.Message"
+            />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/TextViewStyle"
-        tools:text="Bot message"
-        android:paddingTop="6dp"
-        android:paddingBottom="8dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:background="@drawable/bot_message_background"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/bot_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextViewStyle"
+            android:text="@{message.message}"
+            android:paddingTop="6dp"
+            android:paddingBottom="8dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:background="@drawable/bot_message_background"/>
+
+    </RelativeLayout>
+
+</layout>
