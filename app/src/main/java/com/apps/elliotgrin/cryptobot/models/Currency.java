@@ -4,7 +4,7 @@ package com.apps.elliotgrin.cryptobot.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CryptoList {
+public class Currency {
 
     @SerializedName("id")
     @Expose

@@ -1,6 +1,6 @@
 package com.apps.elliotgrin.cryptobot.retrofit
 
-import com.apps.elliotgrin.cryptobot.models.CryptoList
+import com.apps.elliotgrin.cryptobot.models.Currency
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -10,5 +10,5 @@ import retrofit2.http.Query
  */
 interface CoinmarketcapApi {
     @GET("ticker")
-    fun getData(@Query("limit") limit: Int): Call<List<CryptoList>>
+    fun getData(@Query("limit") limit: Int): Call<List<Currency>>
 }
