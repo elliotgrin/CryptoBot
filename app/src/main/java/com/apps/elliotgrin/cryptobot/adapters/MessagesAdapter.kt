@@ -15,8 +15,10 @@ import com.apps.elliotgrin.cryptobot.models.Message
  */
 class MessagesAdapter(val messages: List<Message>, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val MY_MESSAGE_VIEW_TYPE = 0
-    private val BOT_MESSAGE_VIEW_TYPE = 1
+    companion object {
+        val MY_MESSAGE_VIEW_TYPE = 0
+        val BOT_MESSAGE_VIEW_TYPE = 1
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == MY_MESSAGE_VIEW_TYPE) {

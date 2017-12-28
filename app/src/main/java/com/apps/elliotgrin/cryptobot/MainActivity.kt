@@ -22,22 +22,31 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        /*App.getApi().getData( 50).enqueue(object : Callback<List<CryptoList>> {
+        App.getApi().getData( 50).enqueue(object : Callback<List<CryptoList>> {
             override fun onResponse(call: Call<List<CryptoList>>, response: Response<List<CryptoList>>) {
-                *//*posts.addAll(response.body())
-                recyclerView.getAdapter().notifyDataSetChanged()*//*
-                Toast.makeText(this@MainActivity, response.body().toString(), Toast.LENGTH_LONG).show()
+                val currencies = response.body()
+                var message = "Hi!\nThis is all available currencies:\n\n"
+
+                for (cur in currencies) {
+                    message += cur.symbol + "\n"
+                }
+
+                message += "\nChoose one!"
+
+                val messages: List<Message> = listOf<Message>(
+                        Message(MessagesAdapter.BOT_MESSAGE_VIEW_TYPE, message)
+                )
+
+                val adapter = MessagesAdapter(messages, this@MainActivity)
+                binding.recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+                binding.recyclerView.adapter = adapter
+
             }
 
             override fun onFailure(call: Call<List<CryptoList>>, t: Throwable) {
                 Toast.makeText(this@MainActivity, "An error occurred during networking", Toast.LENGTH_SHORT).show()
             }
-        })*/
-
-        val messages: List<Message> = listOf<Message>(Message(1, "Hi!"), Message(0, "Hello!"))
-        val adapter = MessagesAdapter(messages, this)
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = adapter
+        })
 
     }
 }
