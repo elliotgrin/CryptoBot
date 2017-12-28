@@ -19,6 +19,10 @@ import com.apps.elliotgrin.cryptobot.models.Message
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+    lateinit var adapter: MessagesAdapter
+
+    lateinit var cryptoList: List<Currency>
+    lateinit var messages: ArrayList<Message>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,28 +30,29 @@ class MainActivity : AppCompatActivity() {
 
         makeCurrenciesRequest()
         setOnTextChangeListener()
+        setSendClickListener()
     }
 
     private fun makeCurrenciesRequest() {
         App.getApi().getData( 50).enqueue(object : Callback<List<Currency>> {
             override fun onResponse(call: Call<List<Currency>>, response: Response<List<Currency>>) {
-                val currencies = response.body()
+                cryptoList = response.body()
                 var message = "Hi!\nThis is all available currencies:\n\n"
 
-                for (cur in currencies) {
-                    message += cur.symbol + "\n"
+                for (cur in cryptoList) {
+                    message += cur.symbol + " (" + cur.name + ")\n"
                 }
 
                 message += "\nChoose one!"
 
-                val example = "For example: BTC-USD,EUR,RUB"
+                val example = "For example: BTC-USD"
 
-                val messages: List<Message> = listOf<Message>(
+                messages = arrayListOf(
                         Message(MessagesAdapter.BOT_MESSAGE_VIEW_TYPE, message),
                         Message(MessagesAdapter.BOT_MESSAGE_VIEW_TYPE, example)
                 )
 
-                val adapter = MessagesAdapter(messages, this@MainActivity)
+                adapter = MessagesAdapter(messages, this@MainActivity)
                 binding.recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
                 binding.recyclerView.adapter = adapter
 
@@ -77,6 +82,32 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    private fun setSendClickListener() {
+        binding.send.setOnClickListener({
+            _ -> if (binding.editText.text.isNotEmpty()) { sendMessage() }
+        })
+    }
+
+    private fun sendMessage() {
+        val command = binding.editText.text
+        val cryptoCur = command.split("-")[0].trim()
+        val currencies = command.split("-")[1].trim()
+
+        var id = "-1"
+        cryptoList.map { c -> if (c.id == cryptoCur) id = c.id }
+
+        if (id == "-1") {
+            messages.addAll(arrayListOf(
+                    Message(MessagesAdapter.BOT_MESSAGE_VIEW_TYPE, "Invalid crypto currency"),
+                    Message(MessagesAdapter.BOT_MESSAGE_VIEW_TYPE,"Try again")
+            ))
+
+            adapter.notifyItemRangeInserted(adapter.itemCount - 2, adapter.itemCount)
+        } else {
+
+        }
     }
 
 }
