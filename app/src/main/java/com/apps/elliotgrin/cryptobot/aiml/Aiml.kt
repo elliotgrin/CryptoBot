@@ -13,26 +13,9 @@ import org.alicebot.ab.*
 class Aiml(private val context: Context) {
 
     lateinit var bot: Bot
+    lateinit var chat: Chat
 
-    companion object {
-        lateinit var chat: Chat
-
-        //Request and response of user and the bot
-        @JvmStatic
-        fun mainFunction(args: Array<String>) {
-            MagicBooleans.trace_mode = false
-            println("trace mode = " + MagicBooleans.trace_mode)
-            Graphmaster.enableShortCuts = true
-            val timer = Timer()
-            val request = "Hello."
-            val response = chat.multisentenceRespond(request)
-
-            println("Human: " + request)
-            println("Robot: " + response)
-        }
-    }
-
-    public fun setupAiml() {
+    fun setupAiml() {
         //checking SD card availablility
         val a = isSdCardAvailable()
 
@@ -79,7 +62,19 @@ class Aiml(private val context: Context) {
         bot = Bot("Hari", MagicStrings.root_path, "chat")
         chat = Chat(bot)
         val args: Array<String>? = null
-        mainFunction(args)
+        mainFunction()
+    }
+
+    fun mainFunction(/*args: Array<String>*/) {
+        MagicBooleans.trace_mode = false
+        println("trace mode = " + MagicBooleans.trace_mode)
+        Graphmaster.enableShortCuts = true
+        val timer = Timer()
+        val request = "Hello."
+        val response = chat.multisentenceRespond(request)
+
+        println("Human: " + request)
+        println("Robot: " + response)
     }
 
     //check SD card availability

@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.View
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -14,6 +16,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.apps.elliotgrin.cryptobot.adapters.MessagesAdapter
+import com.apps.elliotgrin.cryptobot.aiml.Aiml
 import com.apps.elliotgrin.cryptobot.application.App
 import com.apps.elliotgrin.cryptobot.databinding.ActivityMainBinding
 import com.apps.elliotgrin.cryptobot.models.Currency
@@ -43,6 +46,8 @@ class MainActivity : AppCompatActivity() {
         lateinit var chat: Chat
     }
 
+    lateinit var aiml: Aiml
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -52,6 +57,9 @@ class MainActivity : AppCompatActivity() {
         makeCurrenciesRequest()
         setOnTextChangeListener()
         setSendClickListener()
+
+        aiml = Aiml(this)
+        aiml.setupAiml()
     }
 
     private fun makeCurrenciesRequest() {
@@ -105,10 +113,25 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun setSendClickListener() {
+    /*private fun setSendClickListener() {
         binding.send.setOnClickListener({
             _ ->
             if (binding.editText.text.isNotEmpty()) { sendMessage() }
+        })
+    }*/
+
+    private fun setSendClickListener() {
+        binding.send.setOnClickListener({
+            _ ->
+            if (binding.editText.text.isNotEmpty()) {
+                val message = binding.editText.text.toString()
+                showMyMessage(message)
+
+                val response = aiml.chat.multisentenceRespond(message)
+                showBotMessage(response)
+
+                binding.editText.text.clear()
+            }
         })
     }
 
