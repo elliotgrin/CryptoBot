@@ -22,6 +22,8 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.apps.elliotgrin.cryptobot.models.Message
 import kotlinx.android.synthetic.main.activity_main.*
+import org.alicebot.ab.Bot
+import org.alicebot.ab.Chat
 import org.json.JSONArray
 import org.json.JSONException
 
@@ -34,6 +36,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var messages: ArrayList<Message>
 
     lateinit var requestQueue: RequestQueue
+
+    lateinit var bot: Bot
+
+    companion object {
+        lateinit var chat: Chat
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
